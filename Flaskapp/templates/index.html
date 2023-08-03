@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+
+        .left-div,
+        .right-div {
+            flex: 1; 
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .data-column {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fffbfb;
+            margin: 10px;
+            max-width: 600px;
+        }
+
+        .left-div {
+            background-color: #fffbfb;
+        }
+
+        .right-div {
+            background-color: #f6f6f6;
+        }
+    </style>
+
+    <title>My Flask Web App</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="right-div" style="max-width: 600px;">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="left-div" style="max-width: 600px;">
+            <canvas id="myChart2"></canvas>
+        </div>
+    </div>
+
+    <script>
+        var myData = {{ my_data2 | tojson }};
+        var chartLabels = ['Current GDP', 'Previous GDP'];
+        var chartData = chartLabels.map(label => myData[label]);
+        
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: myData['Country'],
+                    data: chartData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var myData = {{ my_data | tojson }};
+        var chartLabels = ['Current GDP', 'Previous GDP'];
+        var chartData = chartLabels.map(label => myData[label]);
+        
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: myData['Country'],
+                    data: chartData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
